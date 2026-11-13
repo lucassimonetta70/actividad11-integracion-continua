@@ -1,0 +1,30 @@
+name: Integracion Continua Java
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  probar-java:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Compilar programa
+        run: javac Calculadora.java
+
+      - name: Ejecutar programa
+        run: java Calculadora
+
+      - name: Verificar resultado
+        run: |
+          resultado=$(java Calculadora)
+          test "$resultado" = "Resultado: 8"
